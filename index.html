@@ -4,14 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="main.css"></link>
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Weather App</title>
   </head>
-  <body class="bg-sky-800 text-blue-50">
+  <body class="bg-sky-800 text-blue-50 h-[100vh] overflow-y-hidden">
     <div
-      class="flex flex-col border border-blue-50 mx-auto rounded-3xl w-[45vw] h-[40vh] mt-[25vh]"
+      class="flex flex-col border-4 border-blue-50 bg-teal-700 mx-auto rounded-3xl w-[45vw] h-[40vh] mt-[25vh]"
     >
-      <div class="self-end flex gap-8 mr-8">
+      <div class="self-center mt-10 flex gap-8 mr-8">
         <div class="flex flex-col mr-2">
           <label for="city-field" class="px-1 text-xs font-medium"
             >City (required): <span class="text-red-600">*</span></label
@@ -39,14 +40,14 @@
           />
         </div>
         <button
-          class="rounded-lg bg-emerald-500 text-blue-50"
+          class="rounded-lg bg-sky-500 px-4 mt-4 text-blue-50 hover:bg-yellow-500 duration-100"
           id="current-location"
         >
           Current Location
         </button>
       </div>
       <div
-        class="flex self-center rounded-2xl border border-blue-50 w-11/12 h-1/2"
+        class="flex items-center justify-center self-center rounded-2xl mt-8 border border-blue-50 w-11/12 h-1/2"
       >
         <h1 class="text-4xl" id="city-name"></h1>
         <div id="weather-icon"></div>

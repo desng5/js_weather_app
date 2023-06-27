@@ -1,68 +1,89 @@
-async function fetchWeatherData(city,zip) {
-<h1 class="text-4xl">Los Angeles</h1>
-    const apiKey = "6e72e317a037c8418237204e1d27a918"
-    const apiURL = `https://api.openweathermap.org/data/2.5/weather?appid=${apiKey}&`
+async function fetchWeatherData(city, zip, coords = null) {
+  const apiKey = "056e5a496ed237e46fe2e65ead648222";
+  let apiURL = `https://api.openweathermap.org/data/2.5/weather?appid=${apiKey}&`;
 
-    if (zip) {
-        apiURL =+ `zip=${zip},us`;
-    } else {
-        apiURL += `q=${city}`;
-    }
+  if (zip) {
+    apiURL += `zip=${zip},us`;
+  } else if (coords) {
+    apiURL += `lat=${coords.latitude}&lon=${coords.longitude}`;
+  } else {
+    apiURL += `q=${city}`;
+  }
 
-    try{
-        const response = await axios.get(apiURL)
-        return response.data;
-    } catch (error) {
-        alert ("Error fetching weather data. Check inut and try again.")
-    }
+  try {
+    const response = await axios.get(apiURL);
+    return response.data;
+  } catch (error) {
+    alert("Error fetching weather data. Check input and try again.");
     console.error(error);
+  }
 }
 
-function getCurrentLocation(event,location) {
-    event.preventDefault();
-    navigator.geolocation.getCurrentPosition(fetchWeatherData)
+function getCurrentLocation(event) {
+  event.preventDefault();
+  navigator.geolocation.getCurrentPosition((position) => {
+    fetchAndUpdateWeather(null, null, position.coords);
+  });
 }
 
-function covnvertKelvinToFahrenheit(kelvin){
-    return Math.round((kelvin - 273.15) * 1.8 +32);
+function convertKelvinToFahrenheit(kelvin) {
+  return Math.round((kelvin - 273.15) * 1.8 + 32);
 }
 
 function getTemperature(data) {
-    const temperatureElement = document.getElementById("temerature-result");
-    const temp = covnvertKelvinToFahrenheit(data.main.temp):
-    const tempMin = covnvertKelvinToFahrenheit(data.main.temp_min):
-    const tempMax = covnvertKelvinToFahrenheit(data.main.temp_max):
-    const humidity = data.main.humidity;
+  const cityName = document.getElementById("city-name");
+  cityName.innerText = data.name;
 
-    temperatureElement.innerHTML = `
-    <div class="flex flex-col items-end">
-      <div>Temperature: <span class="text-cyan-400">${temp}°F</span></div>
-      <div>(Feels like): <span class="text-green-500" id="temp">${feelsLike}°F</span></div>
-    </div>
-    <div>
-      <div class="mx-[1ch]">|</div>
-      <div class="mx-[1ch]">|</div>
-    </div>
-    <div class="flex flex-col">
-      <div>Min: <span class="text-blue-500">${tempMin}°F</span></div>
-      <div>Max: <span class="text-red-500">${tempMax}°F</span></div>
-    </div>
-    <div class="flex">
-        <div> Humidity: ${humidity}</div>
-    </div>
+  const weatherIcon = document.getElementById("weather-icon");
+  const weatherIconCode = data.weather[0].icon;
+  const weatherIconDesc = data.weather[0].description;
+  const weatherIconURL = `https://openweathermap.org/img/wn/${weatherIconCode}@4x.png`;
+  weatherIcon.innerHTML = `<img src="${weatherIconURL}" alt="${weatherIconDesc}">`;
+
+  const temperatureElement = document.getElementById("temperature-result");
+  const temp = convertKelvinToFahrenheit(data.main.temp);
+  const feelsLike = convertKelvinToFahrenheit(data.main.feels_like);
+  const tempMin = convertKelvinToFahrenheit(data.main.temp_min);
+  const tempMax = convertKelvinToFahrenheit(data.main.temp_max);
+  const humidity = data.main.humidity;
+
+  temperatureElement.innerHTML = `
+      <div class="flex flex-col items-end">
+          <div>Temperature: <span class="text-cyan-400">${temp}°F</span></div>
+          <div>(Feels like): <span class="text-green-500">${feelsLike}°F</span></div>
+      </div>
+      <div class="flex flex-col">
+          <div>Min: <span class="text-blue-500">${tempMin}°F</span></div>
+          <div>Max: <span class="text-red-500">${tempMax}°F</span></div>
+      </div>
+      <div class="flex">
+          <div>Humidity: ${humidity}</div>
+      </div>
   `;
 }
 
-async function fetchAndUpdateWeather(city, zip) {
-    if (!city && !zip) {
-        alert("Please enter a city or zip code");
-        return false;
-    }
-
-    const data = await fetchWeatherData (city,zip)
-    if (data) {
-        getTemperature(data);
-        return true;
-    }
+async function fetchAndUpdateWeather(city, zip, coords = null) {
+  if (!city && !zip && !coords) {
+    alert("Please enter a city or zip code");
     return false;
+  }
+
+  const data = await fetchWeatherData(city, zip, coords);
+  if (data) {
+    getTemperature(data);
+    return true;
+  }
+  return false;
 }
+
+document
+  .getElementById("current-location")
+  .addEventListener("click", getCurrentLocation);
+
+document.getElementById("city-field").addEventListener("change", (event) => {
+  fetchAndUpdateWeather(event.target.value, null);
+});
+
+document.getElementById("zip-field").addEventListener("change", (event) => {
+  fetchAndUpdateWeather(null, event.target.value);
+});

@@ -7,7 +7,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Weather App</title>
   </head>
-
   <body class="bg-sky-800 text-blue-50">
     <div
       class="flex flex-col border border-blue-50 mx-auto rounded-3xl w-[45vw] h-[40vh] mt-[25vh]"
@@ -27,8 +26,8 @@
         </div>
         <div class="flex flex-col">
           <label for="zip-field" class="px-1 text-xs font-medium"
-            >Zipcode (US only):
-          </label>
+            >Zipcode (US only):</label
+          >
           <input
             type="text"
             name="zip"
@@ -49,10 +48,12 @@
       <div
         class="flex self-center rounded-2xl border border-blue-50 w-11/12 h-1/2"
       >
-        <h1 class="text-4xl">Los Angeles</h1>
+        <h1 class="text-4xl" id="city-name"></h1>
         <div id="weather-icon"></div>
         <div id="temperature-result"></div>
       </div>
     </div>
+
+    <script src="js/getWeather.js"></script>
   </body>
 </html>

@@ -38,11 +38,13 @@ function getTemperature(data) {
   const weatherIconCode = data.weather[0].icon;
   const weatherIconDesc = data.weather[0].description;
   const weatherIconURL = `https://openweathermap.org/img/wn/${weatherIconCode}@4x.png`;
-  weatherIcon.innerHTML = `<img src="${weatherIconURL}" alt="${weatherIconDesc}">`;
+  weatherIcon.innerHTML = `
+    <img src="${weatherIconURL}" alt="${weatherIconDesc}">
+    <div class="text-center -mt-10">${weatherIconDesc}</div>
+  `;
 
   const temperatureElement = document.getElementById("temperature-result");
   const temp = convertKelvinToFahrenheit(data.main.temp);
-  const feelsLike = convertKelvinToFahrenheit(data.main.feels_like);
   const tempMin = convertKelvinToFahrenheit(data.main.temp_min);
   const tempMax = convertKelvinToFahrenheit(data.main.temp_max);
   const humidity = data.main.humidity;
@@ -50,7 +52,6 @@ function getTemperature(data) {
   temperatureElement.innerHTML = `
       <div class="flex flex-col items-end">
           <div>Temperature: <span class="text-cyan-400">${temp}°F</span></div>
-          <div>(Feels like): <span class="text-green-500">${feelsLike}°F</span></div>
       </div>
       <div class="flex flex-col">
           <div>Min: <span class="text-blue-500">${tempMin}°F</span></div>

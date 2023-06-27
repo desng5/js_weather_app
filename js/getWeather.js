@@ -54,7 +54,7 @@ function getTemperature(data) {
           <div>Temperature: <span class="text-cyan-400">${temp}°F</span></div>
       </div>
       <div class="flex flex-col">
-          <div>Min: <span class="text-blue-500">${tempMin}°F</span></div>
+          <div>Min: <span class="text-blue-400">${tempMin}°F</span></div>
           <div>Max: <span class="text-red-500">${tempMax}°F</span></div>
       </div>
       <div class="flex">

@@ -1,10 +1,9 @@
 body {
-  background: linear-gradient(238.72deg, #ffb864 0%, #006c4c 100%),
-    radial-gradient(100% 224.43% at 0% 0%, #6cff72 0%, #002c6d 100%),
-    linear-gradient(121.28deg, #ffeab6 0%, #00563c 100%),
-    radial-gradient(56.26% 101.79% at 50% 0%, #8f00ff 0%, #000000 100%),
-    linear-gradient(65.05deg, #6f0072 0%, #dbffe5 100%);
-  background-blend-mode: overlay, screen, color-burn, screen normal;
+  background: linear-gradient(328.78deg, #030086 14.45%, #bd6177 84.36%),
+    linear-gradient(301.28deg, #209b4a 0%, #7000ff 100%),
+    radial-gradient(100% 138.56% at 100% 0%, #d50000 0%, #00ffe0 100%),
+    radial-gradient(100% 148.07% at 0% 0%, #d50000 0%, #00ffff 100%);
+  background-blend-mode: soft-light, overlay, difference, normal;
   background-size: 400% 400%;
   animation: gradient 15s ease infinite;
 }
